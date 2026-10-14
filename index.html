@@ -216,7 +216,8 @@
 
     <h3 style="font-size:15px;margin:22px 0 10px">方式二 · 手动导入（现在就能用）</h3>
     <ol class="steps">
-      <li><b>下载插件包</b>。点卡片上的「下载」，或者国内用「镜像」—— 两个链接下到的是同一个文件。</li>
+      <li><b>下载插件包</b>。点卡片上的「下载」—— 它走 <code class="inline">gh-proxy.com</code> 国内镜像。
+        旁边的「GitHub 直链」是同一个文件（可自行核对 sha256），能连上 GitHub 时用它更快。</li>
       <li><b>不要解压</b>。启动器要的就是这个 zip 本身。</li>
       <li><b>打开启动器</b> → 进入控键布局管理 → 点「导入」→ 在文件选择器里选刚下载的 zip。</li>
       <li><b>导入完成后</b>，在布局列表里选中它即可生效。界面排版类插件需要退出主页再进一次。</li>
@@ -226,6 +227,13 @@
       <b>关于安全：</b>这些插件包里只有 JSON 文本和图片。生成脚本会拒绝任何
       <code class="inline">.dex</code> / <code class="inline">.jar</code> / <code class="inline">.so</code> 文件，
       所以不存在「插件里藏代码」的可能。每个包的 <code class="inline">sha256</code> 都在目录里公开，可自行核对。
+    </div>
+
+    <div class="warn">
+      <b>为什么默认给镜像：</b><code class="inline">github.com</code> 在中国大陆是时通时断的
+      （实测同一分钟内可通、也可连续 20 秒连不上）。<code class="inline">gh-proxy.com</code>
+      只是把同一条 GitHub 直链转发一遍，下到的字节完全一样 —— 本页所有插件的下载链接都已按
+      sha256 逐个核对过。
     </div>
   </div>
 </section>
@@ -333,9 +341,9 @@
           ' · ' + esc(p.updatedAt || '') + '</div>' +
         (tags ? '<div class="tags">' + tags + '</div>' : '') +
         '<div class="actions">' +
-          '<a class="act primary" href="' + esc(dl.url) + '">下载</a>' +
-          '<a class="act" href="' + esc(dl.mirror) + '">镜像</a>' +
-          '<button class="act plain" data-copy="' + esc(dl.url) + '">复制链接</button>' +
+          '<a class="act primary" href="' + esc(dl.mirror) + '">下载</a>' +
+          '<a class="act" href="' + esc(dl.url) + '">GitHub 直链</a>' +
+          '<button class="act plain" data-copy="' + esc(dl.mirror) + '">复制链接</button>' +
         '</div>' +
       '</div>';
   }
