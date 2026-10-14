@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "control-bigbtn",
+  "name": "大按钮 · 易按",
+  "version": "1.0.0",
+  "type": "control",
+  "author": "WEEB123321",
+  "description": "把控键整体放大：字号 ×1.35、圆角加大、按钮和摇杆都放大约两成。适合小屏或手指粗。",
+  "tags": [
+    "控键",
+    "大按钮",
+    "易用"
+  ],
+  "license": "CC-BY-4.0",
+  "minLauncherVersionCode": 1742,
+  "updatedAt": "2026-10-14",
+  "target": "大按钮"
+}

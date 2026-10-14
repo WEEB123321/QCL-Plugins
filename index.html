@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QCL-CE 插件市场</title>
+<meta name="description" content="QCL-CE 插件市场 —— 控键布局、界面排版等资源型插件，下载走 GitHub 与 gh-proxy 国内镜像。">
+<style>
+  :root{
+    --bg:#F2F7F7; --surface:#FFFFFF; --text:#142B2A; --sub:#5F7A78;
+    --accent:#0E9E8E; --accent-dark:#0A7A6E; --divider:#D5E5E3;
+    --code:#0C1616; --code-fg:#E6F4F2; --shadow:rgba(0,0,0,.10);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0C1616; --surface:#142222; --text:#E6F4F2; --sub:#8FABA8;
+           --accent:#2AC9B4; --accent-dark:#1FA492; --divider:#223837;
+           --code:#060C0C; --code-fg:#E6F4F2; --shadow:rgba(0,0,0,.45); }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 22px}
+
+  nav{
+    position:sticky;top:0;z-index:10;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(12px); border-bottom:1px solid var(--divider);
+  }
+  nav .wrap{display:flex;align-items:center;gap:22px;height:58px}
+  .brand{font-weight:700;letter-spacing:.5px;color:var(--text)}
+  .brand i{display:inline-block;width:12px;height:12px;background:var(--accent);
+           border-radius:3px;margin-right:8px;vertical-align:middle}
+  nav .links{margin-left:auto;display:flex;gap:18px;font-size:14px}
+  nav .links a{color:var(--sub)}
+  nav .links a:hover{color:var(--accent)}
+  @media (max-width:640px){ nav .links a.hide-sm{display:none} }
+
+  header{padding:52px 0 30px}
+  header h1{font-size:clamp(26px,5vw,38px);letter-spacing:-.5px;margin-bottom:12px}
+  header h1 span{color:var(--accent)}
+  header p{color:var(--sub);font-size:16px;max-width:660px}
+
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+  .chip{
+    background:var(--surface);border:1px solid var(--divider);border-radius:10px;
+    padding:7px 13px;font-size:13px;color:var(--sub);
+  }
+  .chip b{color:var(--text);font-weight:600}
+
+  /* 工具条 */
+  .toolbar{
+    display:flex;gap:12px;flex-wrap:wrap;align-items:center;
+    padding:16px 0 6px;border-top:1px solid var(--divider);
+  }
+  .search{
+    flex:1 1 260px;min-width:200px;
+    background:var(--surface);border:1px solid var(--divider);border-radius:11px;
+    padding:11px 14px;font:inherit;font-size:14px;color:var(--text);outline:none;
+  }
+  .search:focus{border-color:var(--accent)}
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
+  .filter{
+    background:var(--surface);border:1px solid var(--divider);border-radius:10px;
+    padding:9px 14px;font:inherit;font-size:13px;color:var(--sub);cursor:pointer;
+    transition:border-color .15s,color .15s,background-color .15s;
+  }
+  .filter:hover{color:var(--accent)}
+  .filter[aria-pressed="true"]{
+    background:color-mix(in srgb,var(--accent) 13%,transparent);
+    border-color:var(--accent);color:var(--accent);font-weight:600;
+  }
+
+  /* 卡片 */
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:16px;padding:18px 0 8px;
+  }
+  .card{
+    background:var(--surface);border:1px solid var(--divider);border-radius:14px;
+    padding:18px 18px 16px;display:flex;flex-direction:column;
+    transition:transform .15s, box-shadow .15s, border-color .15s;
+  }
+  .card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--accent) 45%,var(--divider));
+              box-shadow:0 12px 32px -20px var(--shadow)}
+  .card .top{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+  .card h3{font-size:16px;line-height:1.4;flex:1}
+  .badge{
+    flex:none;font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;
+    background:color-mix(in srgb,var(--accent) 13%,transparent);color:var(--accent);
+    white-space:nowrap;
+  }
+  .badge.t-layout{background:color-mix(in srgb,#8A7BE8 15%,transparent);color:#6E5FD6}
+  @media (prefers-color-scheme: dark){ .badge.t-layout{color:#A99BF5} }
+  .card .desc{color:var(--sub);font-size:13.5px;flex:1}
+  .meta{color:var(--sub);font-size:12.5px;margin-top:10px}
+  .meta code{background:var(--code);color:var(--code-fg);padding:1px 6px;border-radius:5px;font-size:11.5px}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+  .tag{font-size:11.5px;color:var(--sub);border:1px solid var(--divider);border-radius:6px;padding:2px 8px}
+  .actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .act{
+    font-size:13px;font-weight:600;padding:8px 14px;border-radius:9px;
+    border:1.5px solid var(--accent);color:var(--accent);background:transparent;
+    cursor:pointer;font-family:inherit;transition:background-color .15s,transform .12s;
+  }
+  .act:hover{background:color-mix(in srgb,var(--accent) 12%,transparent);text-decoration:none}
+  .act.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .act.primary:hover{background:var(--accent-dark);border-color:var(--accent-dark)}
+  .act.plain{border-color:var(--divider);color:var(--sub)}
+  .act.plain:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* 状态 */
+  .state{
+    text-align:center;padding:56px 20px;color:var(--sub);font-size:14.5px;
+    border:1px dashed var(--divider);border-radius:14px;margin:18px 0;
+  }
+  .state b{color:var(--text);display:block;font-size:16px;margin-bottom:6px}
+  .spinner{
+    width:26px;height:26px;border:2.5px solid var(--divider);border-top-color:var(--accent);
+    border-radius:50%;margin:0 auto 14px;animation:spin .8s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion: reduce){ .spinner{animation:none} }
+
+  section{padding:44px 0;border-top:1px solid var(--divider)}
+  h2{font-size:21px;margin-bottom:8px;letter-spacing:-.3px}
+  .lead{color:var(--sub);font-size:14px;margin-bottom:22px}
+
+  ol.steps{list-style:none;counter-reset:s}
+  ol.steps li{counter-increment:s;position:relative;padding:0 0 16px 44px;color:var(--sub);font-size:14.5px}
+  ol.steps li::before{
+    content:counter(s);position:absolute;left:0;top:0;width:27px;height:27px;
+    background:var(--accent);color:#fff;border-radius:9px;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13.5px;
+  }
+  ol.steps li b{color:var(--text)}
+
+  .warn{
+    background:color-mix(in srgb,var(--accent) 9%,transparent);
+    border-left:3px solid var(--accent);border-radius:0 10px 10px 0;
+    padding:14px 18px;font-size:14px;color:var(--sub);margin:18px 0;
+  }
+  .warn b{color:var(--text)}
+
+  code.inline{background:var(--code);color:var(--code-fg);padding:2px 7px;border-radius:5px;font-size:12.5px}
+
+  footer{padding:36px 0 60px;border-top:1px solid var(--divider);color:var(--sub);font-size:13px}
+  footer .wrap{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  footer .sp{margin-left:auto}
+
+  .toast{
+    position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);
+    background:var(--text);color:var(--bg);font-size:13.5px;font-weight:600;
+    padding:10px 18px;border-radius:10px;opacity:0;pointer-events:none;
+    transition:opacity .22s, transform .22s;z-index:60;
+  }
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="brand"><i></i>QCL-CE 插件市场</span>
+    <span class="links">
+      <a href="https://weeb123321.github.io/QCL-QCL-CE/" class="hide-sm">启动器主页</a>
+      <a href="https://github.com/WEEB123321/QCL-QCL-CE/wiki">Wiki</a>
+      <a href="https://github.com/WEEB123321/QCL-Plugins">GitHub</a>
+      <a href="https://github.com/WEEB123321/QCL-Plugins/issues/new" class="hide-sm">提交插件</a>
+    </span>
+  </div>
+</nav>
+
+<header class="wrap">
+  <h1>给 QCL-CE 装点 <span>插件</span></h1>
+  <p>这里收录社区做的资源型插件：控键布局、界面排版。每个插件都能单独下载，
+    也可以直接交给启动器导入。下载走 GitHub，国内用 gh-proxy 镜像。</p>
+
+  <div class="chips">
+    <span class="chip">收录 <b id="stat-count">—</b> 个插件</span>
+    <span class="chip">下载源 <b>GitHub + gh-proxy</b></span>
+    <span class="chip">目录更新 <b id="stat-date">—</b></span>
+    <span class="chip" id="stat-source-chip" style="display:none">取自 <b id="stat-source">—</b></span>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="toolbar">
+    <input id="q" class="search" type="search" placeholder="搜索插件名、说明或标签…" autocomplete="off">
+    <div class="filters" id="filters">
+      <button class="filter" data-type="all" aria-pressed="true">全部</button>
+      <button class="filter" data-type="control" aria-pressed="false">控键布局</button>
+      <button class="filter" data-type="layout" aria-pressed="false">界面排版</button>
+    </div>
+  </div>
+
+  <div id="list" class="grid"></div>
+  <div id="state" class="state"><div class="spinner"></div>正在读取插件目录…</div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>怎么装</h2>
+    <p class="lead">插件是纯资源包，不含任何代码，装错了也不会弄坏启动器。</p>
+
+    <h3 style="font-size:15px;margin:6px 0 10px">方式一 · 启动器内一键安装（开发中）</h3>
+    <p class="lead" style="margin-bottom:18px">
+      启动器「插件」页里的市场入口正在做，<b>当前 v1.9.4 还没有</b> —— 做好之前请用下面的方式二。
+      这一栏写在这里是为了让你知道进度，不是为了让你去点一个不存在的按钮。
+    </p>
+
+    <h3 style="font-size:15px;margin:22px 0 10px">方式二 · 手动导入（现在就能用）</h3>
+    <ol class="steps">
+      <li><b>下载插件包</b>。点卡片上的「下载」，或者国内用「镜像」—— 两个链接下到的是同一个文件。</li>
+      <li><b>不要解压</b>。启动器要的就是这个 zip 本身。</li>
+      <li><b>打开启动器</b> → 进入控键布局管理 → 点「导入」→ 在文件选择器里选刚下载的 zip。</li>
+      <li><b>导入完成后</b>，在布局列表里选中它即可生效。界面排版类插件需要退出主页再进一次。</li>
+    </ol>
+
+    <div class="warn">
+      <b>关于安全：</b>这些插件包里只有 JSON 文本和图片。生成脚本会拒绝任何
+      <code class="inline">.dex</code> / <code class="inline">.jar</code> / <code class="inline">.so</code> 文件，
+      所以不存在「插件里藏代码」的可能。每个包的 <code class="inline">sha256</code> 都在目录里公开，可自行核对。
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>自己做插件</h2>
+    <p class="lead">插件就是一个 zip：一份 <code class="inline">plugin.json</code> + 一个资源目录。没有编译、没有签名。</p>
+    <div class="actions" style="margin-top:4px">
+      <a class="act primary" href="https://github.com/WEEB123321/QCL-Plugins/blob/main/SCHEMA.md">看格式规范</a>
+      <a class="act" href="https://github.com/WEEB123321/QCL-Plugins">看源码与示例</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>QCL-CE 插件市场</span>
+    <span>CC-BY-4.0</span>
+    <span class="sp">by WEEB123321</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="theme.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var OWNER = 'WEEB123321', REPO = 'QCL-Plugins';
+
+  // ★ 多路取 index.json：raw.githubusercontent.com 与 cdn.jsdelivr.net 在
+  //   中国大陆不可达，所以给一串备用源，谁先成功用谁（2026-10-14 实测 1–7 可用）。
+  var SOURCES = [
+    './index.json',
+    'https://cdn.jsdmirror.com/gh/' + OWNER + '/' + REPO + '@main/index.json',
+    'https://jsdelivr.b-cdn.net/gh/' + OWNER + '/' + REPO + '@main/index.json',
+    'https://fastly.jsdelivr.net/gh/' + OWNER + '/' + REPO + '@main/index.json',
+    'https://gcore.jsdelivr.net/gh/' + OWNER + '/' + REPO + '@main/index.json',
+    'https://ghproxy.net/https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/main/index.json',
+    'https://gh-proxy.com/https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/main/index.json'
+  ];
+
+  var TYPE_LABEL = { control: '控键布局', layout: '界面排版' };
+
+  var ALL = [];
+  var state = { q: '', type: 'all' };
+
+  var $list = document.getElementById('list');
+  var $state = document.getElementById('state');
+  var $q = document.getElementById('q');
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function fmtSize(n) {
+    if (!n && n !== 0) return '—';
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+    return (n / 1048576).toFixed(2) + ' MB';
+  }
+
+  function toast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('on');
+    clearTimeout(t._h);
+    t._h = setTimeout(function () { t.classList.remove('on'); }, 1800);
+  }
+
+  function copy(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { toast('链接已复制'); },
+        function () { toast('复制失败，请手动选中'); });
+    } else {
+      toast('这个浏览器不支持自动复制');
+    }
+  }
+
+  // ------------------------------------------------------------ 渲染
+
+  function matches(p) {
+    if (state.type !== 'all' && p.type !== state.type) return false;
+    if (!state.q) return true;
+    var hay = [p.name, p.description, p.author, (p.tags || []).join(' '), p.id].join(' ').toLowerCase();
+    return hay.indexOf(state.q.toLowerCase()) >= 0;
+  }
+
+  function card(p) {
+    var dl = p.download || {};
+    var tags = (p.tags || []).map(function (t) { return '<span class="tag">' + esc(t) + '</span>'; }).join('');
+    var typeCls = p.type === 'layout' ? 'badge t-layout' : 'badge';
+    return '' +
+      '<div class="card">' +
+        '<div class="top">' +
+          '<h3>' + esc(p.name) + '</h3>' +
+          '<span class="' + typeCls + '">' + esc(TYPE_LABEL[p.type] || p.type) + '</span>' +
+        '</div>' +
+        '<div class="desc">' + esc(p.description) + '</div>' +
+        '<div class="meta">v' + esc(p.version) + ' · ' + esc(p.author) + ' · ' + fmtSize(p.size) +
+          ' · ' + esc(p.updatedAt || '') + '</div>' +
+        (tags ? '<div class="tags">' + tags + '</div>' : '') +
+        '<div class="actions">' +
+          '<a class="act primary" href="' + esc(dl.url) + '">下载</a>' +
+          '<a class="act" href="' + esc(dl.mirror) + '">镜像</a>' +
+          '<button class="act plain" data-copy="' + esc(dl.url) + '">复制链接</button>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function render() {
+    var items = ALL.filter(matches);
+    if (!ALL.length) return;
+    if (!items.length) {
+      $list.innerHTML = '';
+      $state.style.display = 'block';
+      $state.innerHTML = '<b>没有匹配的插件</b>换个关键词，或者点上面的「全部」。';
+      return;
+    }
+    $state.style.display = 'none';
+    $list.innerHTML = items.map(card).join('');
+  }
+
+  // ------------------------------------------------------------ 取数据
+
+  function tryFetch(url) {
+    return fetch(url, { cache: 'no-cache' }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    });
+  }
+
+  function loadFrom(i) {
+    if (i >= SOURCES.length) return Promise.reject(new Error('all sources failed'));
+    return tryFetch(SOURCES[i]).then(function (data) {
+      return { data: data, source: SOURCES[i] };
+    }).catch(function () {
+      return loadFrom(i + 1);
+    });
+  }
+
+  function showError(err) {
+    $state.style.display = 'block';
+    $state.innerHTML = '<b>读不到插件目录</b>' +
+      '所有备用源都没连上（' + esc(err.message) + '）。<br>' +
+      '如果你是直接双击打开这个 HTML 文件的，浏览器会拦住跨域请求 —— ' +
+      '把整个目录用本地服务器打开，或者直接看 ' +
+      '<a href="https://github.com/' + OWNER + '/' + REPO + '/blob/main/index.json">仓库里的 index.json</a>。';
+  }
+
+  loadFrom(0).then(function (res) {
+    var d = res.data;
+    ALL = (d && d.plugins) || [];
+    document.getElementById('stat-count').textContent = ALL.length;
+    document.getElementById('stat-date').textContent = (d && d.generatedAt ? d.generatedAt.slice(0, 10) : '—');
+    var chip = document.getElementById('stat-source-chip');
+    if (res.source !== './index.json') {
+      document.getElementById('stat-source').textContent = '备用源';
+      chip.style.display = '';
+    }
+    if (!ALL.length) {
+      $state.innerHTML = '<b>目录是空的</b>还没有插件被收录。';
+      return;
+    }
+    render();
+  }).catch(showError);
+
+  // ------------------------------------------------------------ 交互
+
+  $q.addEventListener('input', function () { state.q = this.value.trim(); render(); });
+
+  document.getElementById('filters').addEventListener('click', function (e) {
+    var b = e.target.closest('.filter');
+    if (!b) return;
+    state.type = b.getAttribute('data-type');
+    var all = this.querySelectorAll('.filter');
+    for (var i = 0; i < all.length; i++) {
+      all[i].setAttribute('aria-pressed', all[i] === b ? 'true' : 'false');
+    }
+    render();
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-copy]');
+    if (b) copy(b.getAttribute('data-copy'));
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "control-minimal",
+  "name": "极简半透明控键",
+  "version": "1.0.0",
+  "type": "control",
+  "author": "WEEB123321",
+  "description": "把默认控键的底色和描边透明度调低，游戏画面挡得更少。手感位置完全不变。",
+  "tags": [
+    "控键",
+    "透明",
+    "极简"
+  ],
+  "license": "CC-BY-4.0",
+  "minLauncherVersionCode": 1742,
+  "updatedAt": "2026-10-14",
+  "target": "极简半透明"
+}

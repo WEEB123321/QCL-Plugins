@@ -1,0 +1,52 @@
+{
+  "main": {
+    "start_ui_version_list": {
+      "order": 0,
+      "visible": true,
+      "w": 0,
+      "h": 0
+    },
+    "start_ui_download": {
+      "order": 1,
+      "visible": true,
+      "w": 0,
+      "h": 0
+    },
+    "start_ui_game_manager": {
+      "order": 2,
+      "visible": true,
+      "w": 0,
+      "h": 0
+    },
+    "start_ui_account": {
+      "order": 3,
+      "visible": true,
+      "w": 0,
+      "h": 0
+    },
+    "start_ui_setting": {
+      "order": 4,
+      "visible": true,
+      "w": 0,
+      "h": 0
+    },
+    "start_ui_multi_player": {
+      "order": 90,
+      "visible": false,
+      "w": 0,
+      "h": 0
+    },
+    "start_ui_lobby": {
+      "order": 91,
+      "visible": false,
+      "w": 0,
+      "h": 0
+    },
+    "start_ui_lab": {
+      "order": 92,
+      "visible": false,
+      "w": 0,
+      "h": 0
+    }
+  }
+}

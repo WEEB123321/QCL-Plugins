@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "control-contrast",
+  "name": "高对比描边控键",
+  "version": "1.0.0",
+  "type": "control",
+  "author": "WEEB123321",
+  "description": "描边加粗到两倍、底色更实，暗背景和明亮场景下都能一眼看清按键边界。",
+  "tags": [
+    "控键",
+    "高对比",
+    "描边"
+  ],
+  "license": "CC-BY-4.0",
+  "minLauncherVersionCode": 1742,
+  "updatedAt": "2026-10-14",
+  "target": "高对比"
+}

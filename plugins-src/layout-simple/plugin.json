@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "layout-simple",
+  "name": "主页 · 极简",
+  "version": "1.0.0",
+  "type": "layout",
+  "author": "WEEB123321",
+  "description": "隐藏「联机 / 大厅 / 实验室」三个入口，主页只留账号、版本、下载、设置。排版随时可恢复默认。",
+  "tags": [
+    "界面",
+    "极简",
+    "主页"
+  ],
+  "license": "CC-BY-4.0",
+  "minLauncherVersionCode": 1742,
+  "updatedAt": "2026-10-14",
+  "target": "main"
+}

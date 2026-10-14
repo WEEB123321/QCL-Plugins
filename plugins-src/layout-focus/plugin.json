@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "layout-focus",
+  "name": "主页 · 游戏优先",
+  "version": "1.0.0",
+  "type": "layout",
+  "author": "WEEB123321",
+  "description": "把「版本列表」和「下载」提到最前，账号与设置沉到后面。常切版本的人少点几下。",
+  "tags": [
+    "界面",
+    "排序",
+    "主页"
+  ],
+  "license": "CC-BY-4.0",
+  "minLauncherVersionCode": 1742,
+  "updatedAt": "2026-10-14",
+  "target": "main"
+}

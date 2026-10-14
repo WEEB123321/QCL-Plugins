@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-14T13:13:29Z",
+  "minLauncherVersionCode": 1742,
+  "count": 5,
+  "plugins": [
+    {
+      "id": "control-bigbtn",
+      "name": "大按钮 · 易按",
+      "version": "1.0.0",
+      "type": "control",
+      "author": "WEEB123321",
+      "description": "把控键整体放大：字号 ×1.35、圆角加大、按钮和摇杆都放大约两成。适合小屏或手指粗。",
+      "tags": [
+        "控键",
+        "大按钮",
+        "易用"
+      ],
+      "license": "CC-BY-4.0",
+      "minLauncherVersionCode": 1742,
+      "updatedAt": "2026-10-14",
+      "size": 10419,
+      "sha256": "a2cdf8c0bf8314f207fda94b2bd3cbceeb3918cc96d6ee69258586173f87e0eb",
+      "download": {
+        "url": "https://github.com/WEEB123321/QCL-Plugins/releases/download/plugins/control-bigbtn-1.0.0.zip",
+        "mirror": "https://gh-proxy.com/https://github.com/WEEB123321/QCL-Plugins/releases/download/plugins/control-bigbtn-1.0.0.zip"
+      }
+    },
+    {
+      "id": "control-contrast",
+      "name": "高对比描边控键",
+      "version": "1.0.0",
+      "type": "control",
+      "author": "WEEB123321",
+      "description": "描边加粗到两倍、底色更实，暗背景和明亮场景下都能一眼看清按键边界。",
+      "tags": [
+        "控键",
+        "高对比",
+        "描边"
+      ],
+      "license": "CC-BY-4.0",
+      "minLauncherVersionCode": 1742,
+      "updatedAt": "2026-10-14",
+      "size": 10320,
+      "sha256": "c6f88f76615142345b66733f7c952f2d58c704a111b4e97e68d7427ac8acd3ac",
+      "download": {
+        "url": "https://github.com/WEEB123321/QCL-Plugins/releases/download/plugins/control-contrast-1.0.0.zip",
+        "mirror": "https://gh-proxy.com/https://github.com/WEEB123321/QCL-Plugins/releases/download/plugins/control-contrast-1.0.0.zip"
+      }
+    },
+    {
+      "id": "control-minimal",
+      "name": "极简半透明控键",
+      "version": "1.0.0",
+      "type": "control",
+      "author": "WEEB123321",
+      "description": "把默认控键的底色和描边透明度调低，游戏画面挡得更少。手感位置完全不变。",
+      "tags": [
+        "控键",
+        "透明",
+        "极简"
+      ],
+      "license": "CC-BY-4.0",
+      "minLauncherVersionCode": 1742,
+      "updatedAt": "2026-10-14",
+      "size": 10402,
+      "sha256": "0bd7222247885f77b2fae191228762e4ce7669ef8a01f79ae06f95b8df189dd5",
+      "download": {
+        "url": "https://github.com/WEEB123321/QCL-Plugins/releases/download/plugins/control-minimal-1.0.0.zip",
+        "mirror": "https://gh-proxy.com/https://github.com/WEEB123321/QCL-Plugins/releases/download/plugins/control-minimal-1.0.0.zip"
+      }
+    },
+    {
+      "id": "layout-focus",
+      "name": "主页 · 游戏优先",
+      "version": "1.0.0",
+      "type": "layout",
+      "author": "WEEB123321",
+      "description": "把「版本列表」和「下载」提到最前，账号与设置沉到后面。常切版本的人少点几下。",
+      "tags": [
+        "界面",
+        "排序",
+        "主页"
+      ],
+      "license": "CC-BY-4.0",
+      "minLauncherVersionCode": 1742,
+      "updatedAt": "2026-10-14",
+      "size": 749,
+      "sha256": "6e676cc939b054a83f80e8fd99fd82445ce684ba3a9aec9ac7d596d85a9d6e06",
+      "download": {
+        "url": "https://github.com/WEEB123321/QCL-Plugins/releases/download/plugins/layout-focus-1.0.0.zip",
+        "mirror": "https://gh-proxy.com/https://github.com/WEEB123321/QCL-Plugins/releases/download/plugins/layout-focus-1.0.0.zip"
+      }
+    },
+    {
+      "id": "layout-simple",
+      "name": "主页 · 极简",
+      "version": "1.0.0",
+      "type": "layout",
+      "author": "WEEB123321",
+      "description": "隐藏「联机 / 大厅 / 实验室」三个入口，主页只留账号、版本、下载、设置。排版随时可恢复默认。",
+      "tags": [
+        "界面",
+        "极简",
+        "主页"
+      ],
+      "license": "CC-BY-4.0",
+      "minLauncherVersionCode": 1742,
+      "updatedAt": "2026-10-14",
+      "size": 767,
+      "sha256": "3a5177780f891940e0e9c8d0f09f50452f6f1f5187263662e3c7326fc15b0f53",
+      "download": {
+        "url": "https://github.com/WEEB123321/QCL-Plugins/releases/download/plugins/layout-simple-1.0.0.zip",
+        "mirror": "https://gh-proxy.com/https://github.com/WEEB123321/QCL-Plugins/releases/download/plugins/layout-simple-1.0.0.zip"
+      }
+    }
+  ]
+}
