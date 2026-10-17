@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>怎么写插件 · QCL-CE 插件市场</title>
+<style>
+  :root{--bg:#F2F7F7;--surface:#FFFFFF;--text:#142B2A;--sub:#5F7A78;--accent:#0E9E8E;--divider:#D5E5E3;--code-bg:#0C1616;--code-fg:#E6F4F2}
+  @media (prefers-color-scheme:dark){:root{--bg:#0C1616;--surface:#142222;--text:#E6F4F2;--sub:#8FABA8;--accent:#2AC9B4;--divider:#223837;--code-bg:#060C0C;--code-fg:#E6F4F2}}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.75;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+  code{background:color-mix(in srgb,var(--accent) 11%,transparent);color:var(--accent);
+       padding:2px 6px;border-radius:5px;font-size:.9em}
+  pre{background:var(--code-bg);color:var(--code-fg);padding:15px 17px;border-radius:11px;
+      overflow-x:auto;font-size:13px;line-height:1.65;margin:14px 0}
+  pre .c{color:#7FA8A2}
+
+  nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);
+      backdrop-filter:blur(12px);border-bottom:1px solid var(--divider)}
+  nav .wrap{max-width:900px;margin:0 auto;padding:0 22px;display:flex;align-items:center;gap:20px;height:58px}
+  .brand{font-weight:700}.brand i{display:inline-block;width:12px;height:12px;background:var(--accent);border-radius:3px;margin-right:8px;vertical-align:middle}
+  nav .links{margin-left:auto;display:flex;gap:16px;font-size:14px}
+  nav .links a{color:var(--sub)}
+
+  .wrap{max-width:900px;margin:0 auto;padding:38px 22px 70px}
+  h1{font-size:30px;letter-spacing:-.4px;margin-bottom:10px}
+  .lead{color:var(--sub);font-size:15px;margin-bottom:34px}
+  h2{font-size:21px;margin:40px 0 12px;letter-spacing:-.2px;padding-top:10px;border-top:1px solid var(--divider)}
+  h2:first-of-type{border-top:0;margin-top:0}
+  h3{font-size:15px;margin:22px 0 8px}
+  p,li{color:var(--sub);font-size:14.5px}
+  ul,ol{margin:10px 0 10px 24px} li{margin:5px 0}
+  b,strong{color:var(--text)}
+
+  .box{background:var(--surface);border:1px solid var(--divider);border-radius:13px;padding:18px 20px;margin:16px 0}
+  .box h3{margin-top:0}
+  .box.warn{border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent)}
+  .box.bad{border-left:3px solid #C0392B;background:color-mix(in srgb,#C0392B 8%,transparent)}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin:14px 0}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--divider);vertical-align:top}
+  th{color:var(--sub);font-size:13px;font-weight:600}
+
+  footer{border-top:1px solid var(--divider);color:var(--sub);font-size:13px;margin-top:40px}
+  footer .wrap{padding:26px 22px;display:flex;gap:16px;flex-wrap:wrap}
+  footer .sp{margin-left:auto}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="brand"><i></i>QCL-CE 插件市场</span>
+    <span class="links">
+      <a href="index.html">市场首页</a>
+      <a href="#submit">提交</a>
+      <a href="https://github.com/WEEB123321/QCL-Plugins">GitHub</a>
+    </span>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<h1>怎么写插件</h1>
+<p class="lead">这份文档说明 QCL-CE 插件是什么、怎么打包、怎么提交。看完你应该能自己做一个。</p>
+
+<div class="box bad">
+  <h3>先说最重要的一条</h3>
+  <p><b>QCL-CE 没有插件运行时</b> —— 没有 DexClassLoader、没有沙箱、没有权限模型。</p>
+  <p>所以插件<b>只能是资源</b>：控键布局、界面排版。<b>不能是代码</b>。</p>
+  <p>包里出现 <code>.dex</code> / <code>.jar</code> / <code>.so</code> 一律<b>拒装</b>。</p>
+</div>
+
+<h2 id="types">1. 两种插件</h2>
+
+<table>
+  <tr><th>type</th><th>是什么</th><th>装到哪</th></tr>
+  <tr>
+    <td><code>control</code></td>
+    <td>一整套控键布局（按钮位置、大小、颜色）</td>
+    <td><code>&lt;应用内部&gt;/control/&lt;名称&gt;/</code></td>
+  </tr>
+  <tr>
+    <td><code>layout</code></td>
+    <td>界面排版（哪个控件显示、什么顺序、多大）</td>
+    <td><code>SETTING_DIR/qcl_layout.json</code></td>
+  </tr>
+</table>
+
+<h2 id="zip">2. 包的结构</h2>
+
+<pre>my-plugin-1.0.0.zip
+├── plugin.json          <span class="c"># 清单，必须在 zip 根</span>
+└── my-plugin/           <span class="c"># 唯一的一个目录，名字 == plugin.json 的 target</span>
+    └── ...              <span class="c"># 按 type 不同，见下</span></pre>
+
+<div class="box warn">
+  <h3>三条硬规则</h3>
+  <ol>
+    <li>zip 根<b>只能有 <code>plugin.json</code> 一个文件</b> + <b>恰好一个目录</b>。</li>
+    <li>那个目录的名字<b>必须等于</b> <code>plugin.json</code> 里的 <code>target</code>。</li>
+    <li>目录名<b>允许中文</b>（<code>control</code> 类型时它就是布局名）。</li>
+  </ol>
+  <p style="margin-top:8px">为什么这么定：启动器里<b>已有的</b>「控键布局 → 导入」流程会解压 zip、
+  取<b>第一个目录</b>当布局名，并要求它等于 <code>info.json</code> 的 <code>name</code>。
+  照这个结构打包，同一个 zip <b>既能被市场一键装，也能被老流程手动导入</b>。</p>
+</div>
+
+<h3>plugin.json 字段</h3>
+
+<pre>{
+  "id": "control-bigbtn",          <span class="c">// 唯一标识，小写+连字符</span>
+  "name": "大按钮 · 易按",           <span class="c">// 显示名</span>
+  "version": "1.0.0",              <span class="c">// 语义化版本</span>
+  "type": "control",               <span class="c">// control | layout</span>
+  "target": "大按钮",               <span class="c">// zip 里那个目录的名字</span>
+  "author": "你的名字",
+  "description": "一句话说明它改了什么",
+  "license": "CC-BY-4.0"
+}</pre>
+
+<h2 id="control">3. control 类型怎么做</h2>
+
+<div class="box warn">
+  <h3>不要手写 info.json</h3>
+  <p>控键布局的字段不少（每个按钮的坐标、尺寸、图标、映射的按键……），
+  <b>手写很容易错</b>。</p>
+  <p><b>正确做法</b>：在启动器里调好一套布局 →
+  「设置 → 控键布局」→ <b>导出</b> →
+  把导出的那个目录原封不动放进 zip 的 <code>target/</code> 里。</p>
+  <p>这样格式<b>一定对</b>，因为就是启动器自己写出来的。</p>
+</div>
+
+<pre>my-plugin-1.0.0.zip
+├── plugin.json
+└── 大按钮/
+    ├── info.json          <span class="c"># 从启动器导出，别改结构</span>
+    ├── &lt;布局1&gt;.json
+    ├── &lt;布局2&gt;.json
+    └── ...</pre>
+
+<h2 id="layout">4. layout 类型怎么做</h2>
+
+<p>这个类型最简单：<b>只要一个 <code>qcl_layout.json</code></b>，格式和启动器自己存的一样。</p>
+
+<p><b>怎么拿到</b>：在启动器里长按页面进编辑模式 → 改完保存 →
+「插件页 → 界面 → 排版导入 / 导出」→ <b>复制到剪贴板</b> → 粘到文件里。</p>
+
+<h3>格式</h3>
+
+<pre>{
+  "main": {                          <span class="c">// 页面 id</span>
+    "launcher_play_button": {        <span class="c">// 控件 id（Android 里的 R.id）</span>
+      "order": 0,                    <span class="c">// 同层排序权重，小的在前</span>
+      "visible": true,               <span class="c">// false = 隐藏（GONE，不占位）</span>
+      "w": 0,                        <span class="c">// 宽度覆盖（px）；0 = 不改</span>
+      "h": 0                         <span class="c">// 高度覆盖（px）；0 = 不改</span>
+    }
+  }
+}</pre>
+
+<h3>可用的页面 id</h3>
+
+<table>
+  <tr><th>pageId</th><th>页面</th><th>pageId</th><th>页面</th></tr>
+  <tr><td><code>main</code></td><td>主页</td><td><code>download</code></td><td>下载</td></tr>
+  <tr><td><code>version_list</code></td><td>版本列表</td><td><code>setting</code></td><td>设置</td></tr>
+  <tr><td><code>account</code></td><td>账号</td><td><code>game_manager</code></td><td>游戏管理</td></tr>
+  <tr><td><code>lobby</code></td><td>大厅</td><td><code>lab</code></td><td>实验室</td></tr>
+  <tr><td><code>backup</code></td><td>备份</td><td><code>diagnostic</code></td><td>启动诊断</td></tr>
+  <tr><td><code>download_resource</code></td><td>资源下载</td><td><code>plugin</code></td><td>插件</td></tr>
+  <tr><td><code>multiplayer</code></td><td>联机</td><td></td><td></td></tr>
+</table>
+
+<div class="box warn">
+  <h3>控件 id 怎么找</h3>
+  <p>就在上面那个导出的 JSON 里 —— 启动器导出时写的就是真实控件 id。</p>
+  <p>想只留几个控件时，<b>把不想要的那几条删掉</b>即可（没写的控件按 XML 原样显示）。
+  想隐藏某个控件，写 <code>"visible": false</code>，别删它。</p>
+</div>
+
+<h2 id="submit">5. 怎么提交</h2>
+
+<p>到 <a href="https://github.com/WEEB123321/QCL-Plugins/issues">QCL-Plugins 的 Issues</a> 开一个，标题写：</p>
+
+<pre>【插件投稿】你的插件名 v1.0.0</pre>
+
+<p>正文里给这几样，<b>缺一样就没法上架</b>：</p>
+
+<table>
+  <tr><th>要给的</th><th>说明</th></tr>
+  <tr><td><b>插件 zip</b></td><td>按上面结构打好包的文件（直接拖进 issue 或给网盘链接）</td></tr>
+  <tr><td><b>sha256</b></td><td>zip 的哈希，用来防篡改。命令见下</td></tr>
+  <tr><td><b>名称 / 版本</b></td><td>和 <code>plugin.json</code> 里一致</td></tr>
+  <tr><td><b>一句话说明</b></td><td>它会改变什么（会显示在市场和 App 里）</td></tr>
+  <tr><td><b>标签</b></td><td>2~4 个，比如「控键 大按钮 易用」</td></tr>
+  <tr><td><b>适用启动器版本</b></td><td>最低 versionCode。不确定就写 20004</td></tr>
+</table>
+
+<h3>怎么算 sha256</h3>
+
+<pre><span class="c"># Windows (PowerShell)</span>
+Get-FileHash .\my-plugin-1.0.0.zip -Algorithm SHA256
+
+<span class="c"># macOS / Linux</span>
+shasum -a 256 my-plugin-1.0.0.zip</pre>
+
+<div class="box warn">
+  <h3>审核会看什么</h3>
+  <ul>
+    <li>包里<b>有没有代码</b>（<code>.dex</code>/<code>.jar</code>/<code>.so</code>）—— 有就拒</li>
+    <li>结构对不对（zip 根只有 <code>plugin.json</code> + 一个目录）</li>
+    <li><code>target</code> 和目录名是否一致</li>
+    <li>sha256 对不对</li>
+    <li>说明和实际改动是否相符（<b>不要写「性能提升 300%」这种没法验证的话</b>）</li>
+  </ul>
+</div>
+
+<h2 id="tips">6. 几个实用建议</h2>
+
+<ul>
+  <li><b>先在自己手机上装一遍</b>。市场里的「一键安装」和你手动装走的是同一套逻辑，
+      自己装不上就别投。</li>
+  <li><b>改动越小越好</b>。只改一个按钮的颜色，比「一整套全新布局」更容易过审，
+      也更不容易和别人的插件冲突。</li>
+  <li><b>排版类插件会覆盖整个 <code>qcl_layout.json</code></b>。
+      如果你只想改主页，<b>别把其它页面的配置也写进去</b>。</li>
+  <li><b>版本号要递增</b>。同一个 id 更新时，<code>version</code> 必须比上一个大。</li>
+</ul>
+
+<footer>
+  <div class="wrap">
+    <a href="index.html">← 回市场首页</a>
+    <span class="sp">by WEEB123321</span>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
