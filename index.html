@@ -161,8 +161,10 @@
   }
   .toast.on{opacity:1;transform:translate(-50%,0)}
 </style>
+<link rel="stylesheet" href="premium.css">
+<link rel="stylesheet" href="market.css">
 </head>
-<body>
+<body class="market">
 
 <nav>
   <div class="wrap">
@@ -178,6 +180,7 @@
 </nav>
 
 <header class="wrap">
+  <div class="hero-kicker">PLUGIN MARKET · QCL-CE</div>
   <h1>给 QCL-CE 装点 <span>插件</span></h1>
   <p>这里收录社区做的资源型插件：控键布局、界面排版。每个插件都能单独下载，
     也可以直接交给启动器导入。下载走 GitHub，国内用 gh-proxy 镜像。</p>
@@ -211,7 +214,7 @@
 
     <h3 style="font-size:15px;margin:6px 0 10px">方式一 · 启动器内一键安装（开发中）</h3>
     <p class="lead" style="margin-bottom:18px">
-      启动器「插件」页里的市场入口正在做，<b>当前 v1.9.4 还没有</b> —— 做好之前请用下面的方式二。
+      启动器「插件」页里的市场入口正在做，<b>当前 v3.1.6 还没有</b> —— 做好之前请用下面的方式二。
       这一栏写在这里是为了让你知道进度，不是为了让你去点一个不存在的按钮。
     </p>
 
@@ -261,6 +264,7 @@
 <div class="toast" id="toast"></div>
 
 <script src="theme.js"></script>
+<script src="liquid-glass.js"></script>
 <script>
 (function () {
   'use strict';
